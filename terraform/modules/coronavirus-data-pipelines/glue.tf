@@ -466,3 +466,137 @@ resource "aws_glue_catalog_table" "ivr_submissions_s3" {
     }
   }
 }
+
+resource "aws_glue_catalog_table" "nhs_people_s3" {
+  name          = "cv-nhs-people-s3-${var.deployment}"
+  database_name = "${aws_glue_catalog_database.merged.name}"
+
+  table_type = "EXTERNAL_TABLE"
+  owner      = "owner"
+
+  parameters = {
+    "skip.header.line.count"           = "1"
+    "sizeKey"                          = "609"
+    "objectCount"                      = "1"
+    "UPDATED_BY_CRAWLER"               = "nhs_staging_crawler"
+    "CrawlerSchemaSerializerVersion"   = "1.0"
+    "recordCount"                      = "2"
+    "averageRecordSize"                = "208"
+    "CrawlerSchemaDeserializerVersion" = "1.0"
+    "compressionType"                  = "none"
+    "classification"                   = "csv"
+    "columnsOrdered"                   = "true"
+    "areColumnsQuoted"                 = "false"
+    "delimiter"                        = ","
+    "typeOfData"                       = "file"
+  }
+
+  storage_descriptor {
+    location = "s3://${aws_s3_bucket.nhs_people.bucket}/"
+
+    input_format  = "org.apache.hadoop.mapred.TextInputFormat"
+    output_format = "org.apache.hadoop.hive.ql.io.HiveIgnoreKeyTextOutputFormat"
+
+    number_of_buckets = -1
+
+    ser_de_info {
+      name                  = "json"
+      serialization_library = "org.apache.hadoop.hive.serde2.lazy.LazySimpleSerDe"
+
+      parameters = {
+        "field.delim" = ","
+      }
+    }
+
+    // columns
+    columns {
+      name    = "nhsnumber"
+      type    = "bigint"
+      comment = ""
+    }
+
+    columns {
+      name    = "dateofbirth"
+      type    = "bigint"
+      comment = ""
+    }
+
+    columns {
+      name    = "patienttitle"
+      type    = "string"
+      comment = ""
+    }
+
+    columns {
+      name    = "patientfirstname"
+      type    = "string"
+      comment = ""
+    }
+
+    columns {
+      name    = "patientothername"
+      type    = "string"
+      comment = ""
+    }
+
+    columns {
+      name    = "patientsurname"
+      type    = "string"
+      comment = ""
+    }
+
+    columns {
+      name    = "patientaddress_line1"
+      type    = "string"
+      comment = ""
+    }
+
+    columns {
+      name    = "patientaddress_line2"
+      type    = "string"
+      comment = ""
+    }
+
+    columns {
+      name    = "patientaddress_line3"
+      type    = "string"
+      comment = ""
+    }
+
+    columns {
+      name    = "patientaddress_line4"
+      type    = "string"
+      comment = ""
+    }
+
+    columns {
+      name    = "patientaddress_line5"
+      type    = "string"
+      comment = ""
+    }
+
+    columns {
+      name    = "patientaddress_postcode"
+      type    = "string"
+      comment = ""
+    }
+
+    columns {
+      name    = "practice_code"
+      type    = "string"
+      comment = ""
+    }
+
+    columns {
+      name    = "practice_name"
+      type    = "string"
+      comment = ""
+    }
+
+    columns {
+      name    = "contact_telephone"
+      type    = "bigint"
+      comment = ""
+    }
+  }
+}
