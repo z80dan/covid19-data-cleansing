@@ -50,3 +50,21 @@ resource "aws_s3_bucket_object" "import_web_form_submissions" {
   content = "${data.template_file.import_web_form_submissions.rendered}"
   etag    = "${md5(data.template_file.import_web_form_submissions.rendered)}"
 }
+
+data "template_file" "import_ivr_submissions" {
+  template = "${file("${path.module}/files/ivr-import.py")}"
+
+  vars = {
+    database         = "${aws_glue_catalog_database.merged.name}"
+    table_name       = "${aws_glue_catalog_table.ivr_submissions.name}"
+    sink_bucket = "${aws_s3_bucket.ivr_submissions.bucket}"
+  }
+}
+
+resource "aws_s3_bucket_object" "import_ivr_submissions" {
+  bucket = "${aws_s3_bucket.scripts.bucket}"
+  key    = "import-ivr-submissions.py"
+
+  content = "${data.template_file.import_ivr_submissions.rendered}"
+  etag    = "${md5(data.template_file.import_ivr_submissions.rendered)}"
+}
