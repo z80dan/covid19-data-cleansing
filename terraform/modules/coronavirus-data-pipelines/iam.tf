@@ -68,6 +68,10 @@ resource "aws_iam_policy" "glue_s3" {
         "${aws_s3_bucket.web_submissions.arn}/*",
         "${aws_s3_bucket.nhs_people.arn}",
         "${aws_s3_bucket.nhs_people.arn}/*",
+        "${aws_s3_bucket.scripts.arn}",
+        "${aws_s3_bucket.scripts.arn}/*",
+        "${aws_s3_bucket.query_results.arn}",
+        "${aws_s3_bucket.query_results.arn}/*",
         "${aws_s3_bucket.address_register.arn}",
         "${aws_s3_bucket.address_register.arn}/*"
       ]
