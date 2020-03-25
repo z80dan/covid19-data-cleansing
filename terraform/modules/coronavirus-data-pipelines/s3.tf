@@ -68,3 +68,16 @@ resource "aws_s3_bucket_object" "import_ivr_submissions" {
   content = "${data.template_file.import_ivr_submissions.rendered}"
   etag    = "${md5(data.template_file.import_ivr_submissions.rendered)}"
 }
+
+resource "aws_s3_bucket" "local_authority_hubs" {
+  bucket = "gds-ons-covid-19-la-hubs-glue-${var.deployment}"
+  acl    = "private"
+}
+
+resource "aws_s3_bucket_object" "local_authority_hubs_csv" {
+  bucket = "${aws_s3_bucket.local_authority_hubs.bucket}"
+  key    = "hubs-lads.csv"
+
+  content = "${file("${path.module}/files/hubs-lads.csv")}"
+  etag    = "${filemd5("${path.module}/files/hubs-lads.csv")}"
+}

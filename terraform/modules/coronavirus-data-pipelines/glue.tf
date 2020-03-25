@@ -909,3 +909,46 @@ resource "aws_glue_catalog_table" "nspl_address_register_s3" {
     }
   }
 }
+
+resource "aws_glue_catalog_table" "local_authority_hubs_s3" {
+  name          = "cv-local-authority-hubs-s3-${var.deployment}"
+  database_name = "${aws_glue_catalog_database.merged.name}"
+
+  table_type = "EXTERNAL_TABLE"
+  owner      = "owner"
+
+  parameters = {
+    "EXTERNAL" = "TRUE"
+  }
+
+  storage_descriptor {
+    location = "s3://${aws_s3_bucket.local_authority_hubs.bucket}/"
+
+    input_format  = "org.apache.hadoop.mapred.TextInputFormat"
+    output_format = "org.apache.hadoop.hive.ql.io.HiveIgnoreKeyTextOutputFormat"
+
+    number_of_buckets = -1
+
+    ser_de_info {
+      name                  = "json"
+      serialization_library = "org.apache.hadoop.hive.serde2.lazy.LazySimpleSerDe"
+
+      parameters = {
+        "field.delim"          = ","
+        "serialization.format" = ","
+      }
+    }
+
+    columns {
+      name    = "geography"
+      type    = "string"
+      comment = ""
+    }
+
+    columns {
+      name    = "hub"
+      type    = "string"
+      comment = ""
+    }
+  }
+}

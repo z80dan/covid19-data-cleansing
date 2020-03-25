@@ -72,6 +72,8 @@ resource "aws_iam_policy" "glue_s3" {
         "${aws_s3_bucket.scripts.arn}/*",
         "${aws_s3_bucket.query_results.arn}",
         "${aws_s3_bucket.query_results.arn}/*",
+        "${aws_s3_bucket.local_authority_hubs.arn}",
+        "${aws_s3_bucket.local_authority_hubs.arn}/*",
         "${aws_s3_bucket.address_register.arn}",
         "${aws_s3_bucket.address_register.arn}/*"
       ]
