@@ -600,3 +600,312 @@ resource "aws_glue_catalog_table" "nhs_people_s3" {
     }
   }
 }
+
+resource "aws_glue_catalog_table" "nspl_address_register_s3" {
+  name          = "cv-nspl-address-register-s3-${var.deployment}"
+  database_name = "${aws_glue_catalog_database.merged.name}"
+
+  table_type = "EXTERNAL_TABLE"
+  owner      = "owner"
+
+  parameters = {
+    "EXTERNAL"              = "TRUE"
+    "has_encrypted_data"    = "false"
+    "transient_lastDdlTime" = "1585075370"
+  }
+
+  storage_descriptor {
+    location = "s3://${aws_s3_bucket.address_register.bucket}/"
+
+    input_format  = "org.apache.hadoop.mapred.TextInputFormat"
+    output_format = "org.apache.hadoop.hive.ql.io.HiveIgnoreKeyTextOutputFormat"
+
+    number_of_buckets = -1
+
+    ser_de_info {
+      name                  = "json"
+      serialization_library = "org.apache.hadoop.hive.serde2.lazy.LazySimpleSerDe"
+
+      parameters = {
+        "field.delim"          = ","
+        "serialization.format" = ","
+      }
+    }
+
+    columns {
+      name    = " idx"
+      type    = "string"
+      comment = ""
+    }
+
+    columns {
+      name    = "pcd"
+      type    = "string"
+      comment = ""
+    }
+
+    columns {
+      name    = "pcd2"
+      type    = "string"
+      comment = ""
+    }
+
+    columns {
+      name    = "pcds"
+      type    = "string"
+      comment = ""
+    }
+
+    columns {
+      name    = "dointr"
+      type    = "string"
+      comment = ""
+    }
+
+    columns {
+      name    = "doterm"
+      type    = "string"
+      comment = ""
+    }
+
+    columns {
+      name    = "usertype"
+      type    = "string"
+      comment = ""
+    }
+
+    columns {
+      name    = "oseast1m"
+      type    = "string"
+      comment = ""
+    }
+
+    columns {
+      name    = "osnrth1m"
+      type    = "string"
+      comment = ""
+    }
+
+    columns {
+      name    = "osgrdind"
+      type    = "string"
+      comment = ""
+    }
+
+    columns {
+      name    = "oa11"
+      type    = "string"
+      comment = ""
+    }
+
+    columns {
+      name    = "cty"
+      type    = "string"
+      comment = ""
+    }
+
+    columns {
+      name    = "ced"
+      type    = "string"
+      comment = ""
+    }
+
+    columns {
+      name    = "laua"
+      type    = "string"
+      comment = ""
+    }
+
+    columns {
+      name    = "ward"
+      type    = "string"
+      comment = ""
+    }
+
+    columns {
+      name    = "hlthau"
+      type    = "string"
+      comment = ""
+    }
+
+    columns {
+      name    = "nhser"
+      type    = "string"
+      comment = ""
+    }
+
+    columns {
+      name    = "ctry"
+      type    = "string"
+      comment = ""
+    }
+
+    columns {
+      name    = "rgn"
+      type    = "string"
+      comment = ""
+    }
+
+    columns {
+      name    = "pcon"
+      type    = "string"
+      comment = ""
+    }
+
+    columns {
+      name    = "eer"
+      type    = "string"
+      comment = ""
+    }
+
+    columns {
+      name    = "teclec"
+      type    = "string"
+      comment = ""
+    }
+
+    columns {
+      name    = "ttwa"
+      type    = "string"
+      comment = ""
+    }
+
+    columns {
+      name    = "pct"
+      type    = "string"
+      comment = ""
+    }
+
+    columns {
+      name    = "nuts"
+      type    = "string"
+      comment = ""
+    }
+
+    columns {
+      name    = "park"
+      type    = "string"
+      comment = ""
+    }
+
+    columns {
+      name    = "lsoa11"
+      type    = "string"
+      comment = ""
+    }
+
+    columns {
+      name    = "msoa11"
+      type    = "string"
+      comment = ""
+    }
+
+    columns {
+      name    = "wz11"
+      type    = "string"
+      comment = ""
+    }
+
+    columns {
+      name    = "ccg"
+      type    = "string"
+      comment = ""
+    }
+
+    columns {
+      name    = "bua11"
+      type    = "string"
+      comment = ""
+    }
+
+    columns {
+      name    = "buasd11"
+      type    = "string"
+      comment = ""
+    }
+
+    columns {
+      name    = "ru11ind"
+      type    = "string"
+      comment = ""
+    }
+
+    columns {
+      name    = "oac11"
+      type    = "string"
+      comment = ""
+    }
+
+    columns {
+      name    = "lat"
+      type    = "string"
+      comment = ""
+    }
+
+    columns {
+      name    = "long"
+      type    = "string"
+      comment = ""
+    }
+
+    columns {
+      name    = "lep1"
+      type    = "string"
+      comment = ""
+    }
+
+    columns {
+      name    = "lep2"
+      type    = "string"
+      comment = ""
+    }
+
+    columns {
+      name    = "pfa"
+      type    = "string"
+      comment = ""
+    }
+
+    columns {
+      name    = "imd"
+      type    = "string"
+      comment = ""
+    }
+
+    columns {
+      name    = "calncv"
+      type    = "string"
+      comment = ""
+    }
+
+    columns {
+      name    = "stp"
+      type    = "string"
+      comment = ""
+    }
+
+    columns {
+      name    = "lad19cd"
+      type    = "string"
+      comment = ""
+    }
+
+    columns {
+      name    = "lad19nm"
+      type    = "string"
+      comment = ""
+    }
+
+    columns {
+      name    = "lad19nmw"
+      type    = "string"
+      comment = ""
+    }
+
+    columns {
+      name    = "fid"
+      type    = "string"
+      comment = ""
+    }
+  }
+}

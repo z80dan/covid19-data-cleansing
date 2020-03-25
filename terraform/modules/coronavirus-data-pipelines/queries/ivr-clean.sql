@@ -1,0 +1,22 @@
+create table "${ivr_clean_table}" as
+SELECT regexp_replace(upper(trim(nhs_number)),
+         '[^A-Z0-9]','') AS ivr_nhs_number, 
+         REGEXP_REPLACE(UPPER(postal_code), '[^A-Z0-9]', '') AS ivr_postcode,
+         CONCAT(SUBSTRING(LPAD(CAST(dob AS VARCHAR), 8, '0'), 5, 4), '-', 
+                SUBSTRING(LPAD(CAST(dob AS VARCHAR), 8, '0'), 3, 2), '-', 
+                SUBSTRING(LPAD(CAST(dob AS VARCHAR), 8, '0'), 1, 2)) AS ivr_dob, 
+                customer_callling_number AS ivr_customer_callling_number, 
+                current_item_id AS ivr_current_item_id, 
+                transfer AS ivr_transfer, 
+                fallback_time AS ivr_fallback_time, 
+                nhs_known AS ivr_nhs_known, 
+                contact_id AS ivr_contact_id, 
+                preferred_phone_number AS ivr_preferred_phone_number, 
+                phone_number_calls AS ivr_phone_number_calls, 
+                postal_code_verified AS ivr_postal_code_verified, 
+                delivery_supplies AS ivr_delivery_supplies, 
+                carry_supplies AS ivr_carry_supplies, 
+                have_help AS ivr_have_help, 
+                call_timestamp AS ivr_call_timestamp, 
+                umet_needs AS ivr_umet_needs
+FROM "${ivr_table}"
