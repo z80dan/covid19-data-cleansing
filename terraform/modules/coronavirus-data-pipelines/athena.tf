@@ -66,21 +66,3 @@ resource "aws_athena_named_query" "join_ivr_nhs_web" {
   database = "cv-merged-${var.deployment}"
   query    = "${data.template_file.join_ivr_nhs_web_query.rendered}"
 }
-
-data "template_file" "full_outer_join_then_inner_join" {
-  template = "${file("${path.module}/queries/full-outer-join-then-inner-join.sql")}"
-
-  vars = {
-    nhs_clean_table = "${local.nhs_clean_table}"
-    ivr_clean_table = "${local.ivr_clean_table}"
-    web_clean_table = "${local.web_clean_table}"
-
-    nspl_address_register_table = "${aws_glue_catalog_table.nspl_address_register_s3.name}"
-  }
-}
-
-resource "aws_athena_named_query" "full_outer_join_then_inner_join" {
-  name     = "full-outer-join-then-inner-join-${var.deployment}"
-  database = "cv-merged-${var.deployment}"
-  query    = "${data.template_file.full_outer_join_then_inner_join.rendered}"
-}
