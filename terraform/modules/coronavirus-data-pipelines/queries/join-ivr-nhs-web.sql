@@ -23,11 +23,11 @@ FROM
                     LEFT JOIN "${ivr_clean_table}" AS d
                         ON trim(c.nhs_nhs_number)=trim(d.ivr_nhs_number)) AS e
                     LEFT JOIN "${nspl_address_register_table}" AS f
-                        ON trim(e.nhs_postcode) = regexp_replace(f.pcd,'(\\s+)','')
+                        ON trim(e.nhs_postcode) = regexp_replace(f.pcd,'[^A-Z0-9]','')
                     WHERE e.nhs_postcode <>'') AS g
                     LEFT JOIN "${nspl_address_register_table}" AS h
-                        ON trim(g.postcode) = regexp_replace(h.pcd,'(\\s+)','')
+                        ON trim(g.postcode) = regexp_replace(h.pcd,'[^A-Z0-9]','')
                     WHERE g.postcode <>'') AS i
                 LEFT JOIN "${nspl_address_register_table}" AS j
-                ON trim(i.ivr_postcode) = regexp_replace(j.pcd,'(\\s+)','')
+                ON trim(i.ivr_postcode) = regexp_replace(j.pcd,'[^A-Z0-9]','')
         WHERE i.ivr_postcode <>'';
