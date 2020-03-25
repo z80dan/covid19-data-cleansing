@@ -1,0 +1,33 @@
+digraph G {
+    style=filled;
+    color=lightgrey;
+    node [style=filled,color=lightgrey];
+    
+    web_sub_dynamo;
+    ivr_sub_dynamo;
+    
+    glue_web_sub_s3 -> web_sub_dynamo [style="dashed", label="read"];
+    glue_web_sub_s3 -> web_sub_s3;
+    
+    glue_ivr_sub_s3 -> ivr_sub_dynamo [style="dashed", label="read"];
+    glue_ivr_sub_s3 -> ivr_sub_s3;
+    
+    nhs_s3;
+    location_s3;
+    
+    web_sub_s3 -> athena_merge;
+    ivr_sub_s3 -> athena_merge;
+    nhs_s3 -> athena_merge;
+    location_s3 -> athena_merge;
+    
+    athena_merge -> query_table_s3;
+    athena_query -> query_table_s3 [style="dashed", label="read"];
+    athena_query -> output
+    
+    glue_web_sub_s3 [shape=rect, color=orange];
+    glue_ivr_sub_s3 [shape=rect, color=orange];
+    athena_merge [shape=rect, color=orange];
+    athena_query [shape=rect, color=orange];
+    
+    output [color=green]
+}

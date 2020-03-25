@@ -1,0 +1,42 @@
+digraph G {
+    style=filled;
+    color=lightgrey;
+    node [style=filled,color=lightgrey];
+    
+    web_sub_dynamo;
+    ivr_sub_dynamo;
+    
+    glue_web_sub_s3 -> web_sub_dynamo;
+    glue_web_sub_s3 -> web_sub_s3;
+    
+    glue_ivr_sub_s3 -> ivr_sub_dynamo;
+    glue_ivr_sub_s3 -> ivr_sub_s3;
+    
+    nhs_s3;
+    location_s3;
+    
+    web_sub_s3 -> athena_web_sub_clean;
+    athena_web_sub_clean -> web_sub_clean_s3;
+    
+    ivr_sub_s3 -> athena_ivr_sub_clean;
+    athena_ivr_sub_clean -> ivr_sub_clean_s3;
+    
+    nhs_s3 -> athena_nhs_clean;
+    athena_nhs_clean -> nhs_clean_s3;
+
+    web_sub_clean_s3 -> athena_merge;
+    ivr_sub_clean_s3 -> athena_merge;
+    nhs_clean_s3 -> athena_merge;
+    location_s3 -> athena_merge;
+    
+    athena_merge -> output;
+    
+    glue_web_sub_s3 [shape=rect, color=orange];
+    glue_ivr_sub_s3 [shape=rect, color=orange];
+    athena_web_sub_clean [shape=rect, color=orange];
+    athena_ivr_sub_clean [shape=rect, color=orange];
+    athena_nhs_clean [shape=rect, color=orange];
+    athena_merge [shape=rect, color=orange];
+    
+    output [color=green]
+}
